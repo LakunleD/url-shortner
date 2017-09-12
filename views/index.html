@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kunle url Shortner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+</head>
+<body>
+    <div class="header ui"></div>
+    <div class="ui container">
+        <div class="ui input focus">
+            <div class="ui label">Enter Url:</div>
+            <input type="text" id="url" placeholder="Enter url...">
+            <button class="ui button primary" id="submit">Enter</button>
+        </div>
+
+        <p class="ui" id="result">
+        </p>
+    </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#submit').click(function (event) {
+                $('#submit').html("Please wait...");
+                let payload = {
+                    "url": $('#url').val()
+                }
+
+                $.ajax({
+                    type:"POST",
+                    url:"/new",
+                    data:payload,
+                    success: function (msg) {
+                        $('#submit').html("Done...");
+                        let newUrl = msg.short_url;
+                        $('#result').html(newUrl);
+                    },
+                    error:function (request, textStatus, errorThrown) {
+                        $('#submit').html("Error...");
+                    }
+                })
+            });
+        });
+    </script>
+</body>
+</html>

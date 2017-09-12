@@ -1,4 +1,7 @@
 const keygen = require("keygenerator");
+const swig = require("swig");
+const Path = require('path');
+
 
 let collectionShortened = "shortenedUrl";
 
@@ -23,6 +26,15 @@ function generatekey(mongodb) {
 
 
 let routes = function (server, mongodb) {
+
+    server.route({
+        method: 'GET',
+        path: '/',
+        handler: function (request, reply) {
+            let template = swig.compileFile(Path.join(__dirname, "/views/index.html"));
+            reply(template());
+        }
+    })
 
     server.route({
         method: 'POST',
@@ -56,22 +68,12 @@ let routes = function (server, mongodb) {
     });
 
     server.route({
-        "method": "GET",
-        "path": "/dmdjs/{keydjkdjm}",
-        "handler": function (request, reply) {
-            let key = request.params.key;
-            reply(key);
-        }
-    });
-
-    server.route({
         method: "GET",
         path: "/{key}",
         handler: function (request, reply) {
             let shortenedUrlCollection = mongodb.collection(collectionShortened);
 
             let key = request.params.key;
-
 
             shortenedUrlCollection.findOne({key: key}, function (err, urlInfo) {
                 if(err){
@@ -87,6 +89,8 @@ let routes = function (server, mongodb) {
             })
         }
     });
+
+
 }
 
 module.exports = routes;
