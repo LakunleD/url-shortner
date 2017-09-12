@@ -1,0 +1,16 @@
+{
+  "name": "urlshortner",
+  "version": "1.0.0",
+  "description": "a url shortner",
+  "main": "shortner.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Olakunle Dosunmu",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^16.5.2",
+    "hapi-cors-headers": "^1.0.0",
+    "mongodb": "^2.2.31"
+  }
+}
