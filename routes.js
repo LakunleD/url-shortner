@@ -69,8 +69,6 @@ let routes = function (server, mongodb) {
             else {
                 reply({short_url:'Invalid Url'})
             }
-
-
         }
     });
 
