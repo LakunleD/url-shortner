@@ -1,6 +1,7 @@
 const keygen = require("keygenerator");
 const swig = require("swig");
 const Path = require('path');
+const validUrl = require('valid-url');
 
 
 let collectionShortened = "shortenedUrl";
@@ -50,18 +51,24 @@ let routes = function (server, mongodb) {
 
             let key = generatekey(mongodb);
 
-            let data = {
-                original_url: url,
-                key: key
-            }
+            if (validUrl.isUri(url)){
 
-            shortenedUrlCollection.insert(data, function (err, result) {
-                if (err) {
-                    reply("Error");
-                    return;
+                let data = {
+                    original_url: url,
+                    key: key
                 }
-                reply({"original_url": url, "short_url": hostName + key});
-            });
+
+                shortenedUrlCollection.insert(data, function (err, result) {
+                    if (err) {
+                        reply("Error");
+                        return;
+                    }
+                    reply({original_url: url, short_url: hostName + key});
+                });
+            }
+            else {
+                reply({short_url:'Invalid Url'})
+            }
 
 
         }
